@@ -161,6 +161,33 @@ def era(args):
     print(f"\n共 {found} 处。词表只有常见的，查不了称谓对不对朝代，也查不了「现代想法换了古代腔」，这些要人工看（references/era/）。")
 
 
+KANSAI_MARK = r"(?:やで|やん|やろ|やな|ねん|てん|[かきくけこさしすせそたちつてとなにぬねのまみむめもらりるれろがぎぐげごえいう]へん|ひん|あかん|ほんま|せや|そや|ほな|ちゃう|めっちゃ|おもろ|しゃあない|ええ|なんぼ|やんか|はる|とん[？?]|とう[？?]|たる|もた|なあかん)"
+TOKYO_MARK = [(r"だ(?:[。！？!?…」]|$)", "〜だ → 〜や"), (r"だよ", "だよ → やで"), (r"だね", "だね → やな"), (r"だろ", "だろ → やろ"),
+              (r"じゃん", "じゃん → やん"), (r"[かがさざたなばまらわ]ない(?:[。！？!?…」よのねか、]|$)", "〜ない → 〜へん、〜ん"),
+              (r"なかった(?:[。！？!?…」よのね]|$)", "〜なかった → 〜へんかった"), (r"(?:ダメ|だめ)", "だめ → あかん"),
+              (r"(?:違う|ちがう)(?:よ|ね|って|[。！？!?…」]|$)", "違う → ちゃう"), (r"(?:本当|ほんとう)に?", "本当 → ほんま"),
+              (r"なきゃ", "なきゃ → なあかん"), (r"じゃあ", "じゃあ → ほな")]
+
+
+def kansai_check(lines):
+    """关西腔里混入的东京说法。敬体的句子不算（です・ます 关西也说）。"""
+    marked = sum(1 for l in lines if re.search(KANSAI_MARK, l))
+    print(f"关西标记：{marked} / {len(lines)} 句有（按高浓度大阪话查；有切换设定的角色，混入标准语可能是对的）")
+    bad = 0
+    for i, l in enumerate(lines, 1):
+        for sent in re.split(r"(?<=[。！？!?…])", l):
+            if re.search(r"(?:です|ます|ません|ました|でした|ください)", sent):
+                continue
+            for pat, fix in TOKYO_MARK:
+                if re.search(pat, sent):
+                    bad += 1
+                    print(f"[假关西] 第 {i} 句「{sent.strip()}」：{fix}")
+    if not marked:
+        print("[留意] 一个关西标记都没有，设定写了关西人的话，要么加，要么写明这场他说标准语。")
+    print("提醒：字对了不等于念得对，TTS 多半按东京声调念，要试听（references/ja/06a 第七节）。")
+    return bad
+
+
 def mora_count(text):
     """估算拍数：读音标注按假名算，假名一字一拍（小写的不算），没标读音的汉字按 2 拍估。"""
     text = re.sub(r"[一-鿿々]+[（(]([ぁ-んァ-ヶー]+)[）)]", r"\1", text)
@@ -222,6 +249,8 @@ def ja(args):
 
     if args.style == "real":
         allow = set(args.allow.split(",")) if args.allow else set()
+        if args.dialect == "kansai":
+            allow |= {"わし", "ですわ", "ますわ"}
         for k, v in hits("role").items():
             if k[0] in allow:
                 continue
@@ -237,6 +266,9 @@ def ja(args):
         print(f"[敬语] {k[0]}（{k[1]}），第 {v[0][0]} 句：{v[0][1]}")
     for k, v in hits("warn").items():
         print(f"[留意] {k[0]}（{k[1]}），第 {v[0][0]} 句：{v[0][1]}")
+
+    if args.dialect == "kansai":
+        problems += kansai_check(lines)
 
     sents = [s for s in re.split(r"(?<=[。！？!?…」])|\n", text) if s and s.strip("「」『』。！？!?… 　")]
     dist = collections.Counter(ja_ending(s.strip()) for s in sents)
@@ -289,6 +321,7 @@ def main():
     j.add_argument("--style", choices=["real", "anime"], default="anime", help="real 时报役割语")
     j.add_argument("--self", help="档案允许的自称，逗号隔开，如 俺,僕,私")
     j.add_argument("--allow", help="现实风格里允许的词（方言角色的 わし、〜じゃ、〜のう），逗号隔开")
+    j.add_argument("--dialect", choices=["kansai"], help="关西角色：抓混入的东京说法，并允许 わし、〜ですわ")
     j.add_argument("--sec", type=float, help="每句的镜头秒数，超了就报")
     j.set_defaults(fn=ja)
     a = p.parse_args()

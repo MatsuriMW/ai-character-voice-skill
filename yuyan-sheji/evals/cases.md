@@ -98,7 +98,10 @@ python3 scripts/yuyan_tool.py variety <文件> --target <uk|us|au> --speaker <�
 
 - 过：三层能分开；现实层没有招牌词；有体系内的上下切换；词的年份写明。
 
-## 14 脚本
+## 14 脚本（--dialect kansai 同）
+
+放一段假关西腔（そうだよ、めっちゃ…… / 知らないねん / 違うで），应该报；放真的（ほんまや、知らんわ、行かへんねん、敬体句）不应该报。
+
 
 ```
 python3 scripts/yuyan_tool.py ja <文件> --style real --self 俺,僕
