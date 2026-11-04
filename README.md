@@ -8,6 +8,11 @@
 
 ## 同一段对白，拷打前后
 
+![同一段对白拷打前后：中文现代、英文现代、日语现代、中文古代各三句](docs/compare.png)
+
+<details>
+<summary>文字版</summary>
+
 **沈阳烧烤店老板娘，听说儿子瞒着她辞职、还欠了网贷**
 
 | 改前 | 改后 |
@@ -39,6 +44,8 @@
 | 请你们把身上的财物交给我。 | 留下买路财，快些。 |
 | 大人，我只是一个农民，我没有钱。 | 大王，小人挑的是菜，身上真没银钱。 |
 
+</details>
+
 ## 它管什么
 
 三根轴互相独立，组合都成立：
@@ -58,6 +65,8 @@
 | **真人感（现代）** | 惊讶、愤怒时脱口而出的话，按语言、年龄、地域、信仰分（bloody hell、oh my goodness、卧槽、这下坏了）；分人群的 filler（like、literally、就是、なんか）和密度 |
 
 ## 五个模式
+
+![进分镜之前先拷打：逐人问五个问题、逐句测四项；评测结果和局限](docs/method.png)
 
 | 模式 | 什么时候用 |
 |---|---|
@@ -97,7 +106,105 @@
 - **字写成关西腔，TTS 可能按东京声调念**。这是按引擎工作方式推的，还没有实测过，要自己试听。
 - 盲测的角色反差大，题偏容易。
 - 脚本查不出敬语方向和内外（最严重的错），这些要逐句人工过。
-- 称谓的朝代细节、地域脏话、俚语年份有不少是常识整理，标了〔待核〕，来源和存疑都列在 [`references/sources.md`](yuyan-sheji/references/sources.md)。
+- 称谓的朝代细节、地域脏话、俚语年份有不少是常识整理，标了〔待核〕（见下面的[信源](#信源)）。
+
+## 信源
+
+做这个 skill 时实际参考过的资料。**这份资料大多只看了摘要或摘录，不要当成读过全文的文献综述**，规则里拿不准的都标了〔待核〕，对应关系和存疑见 [`references/sources.md`](yuyan-sheji/references/sources.md)。
+
+标记：◎ 读了相关段落；○ 只看了摘要或搜索摘录；△ 审校模型引用的，我没有逐篇读。
+
+<details>
+<summary>日语：敬语、役割语、人称、句末</summary>
+
+- ◎ 文化审议会，[《敬語の指針》](https://www.bunka.go.jp/seisaku/bunkashingikai/kokugo/hokoku/pdf/keigo_tosin.pdf)（2007）
+- ◎ 国立国语研究所，[会話から日本語を見る](https://kotoba.ninjal.ac.jp/digest/03/d-03-05/)：同一个人对不同对象的自称
+- ◎ 国立国语研究所，[おじいちゃんのような話し方](https://kotoba.ninjal.ac.jp/qa/yokuaru/qa-79/)：役割语的来历
+- ○ 金水敏，[《ヴァーチャル日本語 役割語の謎》](https://www.iwanami.co.jp/book/b625302.html)（书的介绍）、[讲义](http://skinsui.cocolog-nifty.com/sklab/files/tallinnlecturekinsuihandout.pdf)、[短文](http://skinsui.cocolog-nifty.com/skinsuis_blog/2005/11/post_2ce1.html)、[研究者访谈](https://kotoba.ninjal.ac.jp/digest/04/d-04-05/)、[大阪大学介绍](https://resou.osaka-u.ac.jp/ja/story/2019/fyvba9)
+- ○ 定延利之，[ことばとキャラ](https://dictionary.sanseido-publ.co.jp/column/zadankai03)、[「役割語」について](https://dictionary.sanseido-publ.co.jp/column/chara-hoi-99)
+- ○ [キャラ語尾「ござる」の文法](https://ir.lib.shimane-u.ac.jp/55187/files/13091)（岛根大学）
+- ○ 水本光美，[ことばとジェンダーを考える](https://www.langgender.jp/introduction/)、[2005 年论文](https://gender.jp/wp-content/uploads/2005_NGG_journal_5_mizumoto.pdf)、[2009 年论文](https://gender.jp/wp-content/uploads/2009_NGG_journal_9_mizumoto_fukumori_takada.pdf)、[ドラマに見る女ことば](https://researchmap.jp/read0066018/published_papers/6005834/attachment_file.pdf)：年轻女性的句末，影视和教材的夸张
+- ◎ [お嬢様言葉](https://ja.wikipedia.org/wiki/%E3%81%8A%E5%AC%A2%E6%A7%98%E8%A8%80%E8%91%89)（日文维基）
+- ○ [读卖：女言葉 移りゆく「伝統」](https://www.yomiuri.co.jp/culture/book/columns/20250519-OYT8T50102/)、[朝日：金水敏访谈](https://www.asahi.com/articles/ASS3353X7S2WUCVL014.html)
+- ○ [日经：男性の「俺」離れ](https://www.nikkei.com/article/DGXZQOUD304OJ0Q6A930C2000000/)（转述博报堂调查）、[日本語の人称代名詞の使用実態](https://www.earticle.net/Article/A439544)、[自称詞「オレ」と人物像](https://kls-linguist.com/wp/wp-content/uploads/2022/06/A4_Nishizawa_220612.pdf)、[日本語における自称表現](https://www.cocopb.com/download/2013_7_azam.pdf)
+- ◎ 国立国语研究所，[CSJ 发话速度](https://clrd.ninjal.ac.jp/csj/misc/preliminary/j6_1.html)：拍数的依据
+- △ 国立国语研究所，[「〜てください」の丁寧さ](https://kotoba.ninjal.ac.jp/qa/yokuaru/qa-105/)；[广岛大学论文](https://hiroshima.repo.nii.ac.jp/record/2002883/files/k8423_3.pdf)
+
+</details>
+
+<details>
+<summary>日语：经典角色</summary>
+
+- ○ [JC・JK 流行語大賞 2025](https://news.mynavi.jp/article/20251201-3745002/)（AMF，マイナビニュース转载）
+- ○ [溝口敦、鈴木智彦对谈](https://www.moneypost.jp/1307533)：博徒和テキ屋的用词；[文春：黑帮的拟亲属秩序](https://bunshun.jp/articles/-/42891)；[舎弟](https://www.weblio.jp/content/舎弟)（辞典）
+- △ [警察白书](https://www.npa.go.jp/hakusyo/h01/h010102.html)：兄貴和舎弟的关系
+- ○ [警察实际使用的隐语](https://kuruma-news.jp/post/648233)
+- ○ [テレビ東京：ヤンキー文化](https://www.tv-tokyo.co.jp/plus/entertainment/entry/202407/15377.html)；[pixiv 百科「俺」](https://dic.pixiv.net/a/%E4%BF%BA)
+
+</details>
+
+<details>
+<summary>日语：关西腔和地方口音</summary>
+
+- ○ [Nihongoresources：Kansai-ben](https://www.nihongoresources.com/language/dialects/kansaiben.html)、[Bunpro：へん](https://bunpro.jp/grammar_points/ない-kansai)、[TCJ：大阪生活的关西弁](https://tcj-education.com/blog/kansai-ben-and-standard-japanese-differences-to-know-when-living-in-osaka/)
+- ○ [大阪弁](https://ja.wikid.org/%E5%A4%A7%E9%98%AA%E5%BC%81)（维基镜像）、[日语的方言](https://ja.wikibooks.org/wiki/%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%B9%E8%A8%80)（Wikibooks）
+- ○ [FUN! JAPAN：关西弁](https://www.fun-japan.jp/jp/articlesPromotion/12752)、[「ほかす」等方言词](https://news.livedoor.com/article/detail/8753742/)
+- ○ [大阪大学：京阪式声调](https://ir.library.osaka-u.ac.jp/repo/ouka/all/57292/gbkp_2015_o10_035.pdf)
+- △ [大阪弁辞典](https://hogen.mainichi-lab.com/translate/kansai)；[大阪方言的引用标记](https://ir.library.osaka-u.ac.jp/repo/ouka/all/92433/sln19_058.pdf)；[关西方言终助词「わ」](https://www.anlp.jp/proceedings/annual_meeting/2022/pdf_dir/PT2-2.pdf)；[大阪方言声调资料](https://tsukuba.repo.nii.ac.jp/record/2002592/files/GL_22_16.pdf)；[文化厅教材](https://www.bunka.go.jp/seisaku/kokugo_nihongo/kyoiku/kyoiku_jinzaiyosei/pdf/93795101_02.pdf)
+
+**「字写成关西腔，TTS 按东京声调念」没有找到专门的调查**，是按引擎工作方式推的。
+
+</details>
+
+<details>
+<summary>古代和时代考证</summary>
+
+- ○ 河合敦，[时代考证的经验](https://president.jp/articles/-/33975)；大森洋平，[《考証要集 秘伝！NHK時代考証資料》](https://booklive.jp/product/index/title_id/497824/vol_no/001)（介绍和读者评）
+- ○ [古装剧的「装古」批评](https://m.gmw.cn/2025-09/30/content_1304169196.htm)（光明网）
+- ○ [古人的称谓](https://www.thepaper.cn/newsDetail_forward_1486351)（澎湃）、[謙稱](https://www.zdic.net/hans/謙稱)（汉典）
+- ○ [Thou](https://en.wikipedia.org/wiki/Thou)（英文维基）
+- △ [清代称谓资料](https://www.qinghistory.cn/c/389/389989.shtml)；[古人的名和字](https://www.ccdi.gov.cn/yaowen/201703/t20170331_146450.html)；[早期现代英语的 thine](https://wiki.korpus.cz/doku.php/en%3Aeebo%3Amorphology1)；[Thou and you](https://www.cambridge.org/core/books/abs/authorship-of-shakespeares-plays/thou-and-you/53183C5F8AB52B2DFDECE4D9C5F43EB4)
+
+**中文古代的称谓和朝代差别主要靠通行知识，《称谓录》等工具书没有读**，用到考据层要自己核。
+
+</details>
+
+<details>
+<summary>脱口而出和 filler</summary>
+
+- ○ Gunnel Tottie（2011），um 和 uh 作为社会语言学标记，[基于 BNC 的复现](https://rdrr.io/github/WFU-TLC/analyzr/f/vignettes/analysis-an-inference-example.Rmd)
+- ○ Mark Liberman，[Language Log](https://languagelog.ldc.upenn.edu/nll/?p=13805)；[德语和荷兰语的情况](https://languagelog.ldc.upenn.edu/nll/?p=14894)（Wieling）；[um 和 uh 的性别差异](https://repository.upenn.edu/pwpl/vol17/iss2/2/)（宾大工作论文）
+- ○ Jack Grieve，[美国脏话的地域分布](https://www.cbsnews.com/chicago/news/dang-chicagoans-swear-a-lot)（CBS 报道）
+- ○ [「卧槽」和鲁迅的《论「他妈的」》](https://www.jiemian.com/article/790107.html)（界面）
+
+**分人群的脱口词和 filler 表是常识整理**，种子来自这个 skill 的作者，没有全面的语言学调查。
+
+</details>
+
+<details>
+<summary>TTS 和读音</summary>
+
+- ○ [用假名标注纠正 TTS 读音](https://www.vocab.ai/tips/japanese-correct-pronunciation-using-furigana)、[学习平台用户对「は」读错的反馈](https://community.bunpro.jp/t/what-happened-to-audio/89954/21)
+
+</details>
+
+<details>
+<summary>中英文模式的经典文献（没有逐本读，用的是通行说法）</summary>
+
+Alan Ross（1954）、Nancy Mitford（1955）的 U 和 non-U；Kate Fox，*Watching the English*（2004）；Basil Bernstein 的语码理论（1971 起）；William Labov（1966、1969）；Martin Joos，*The Five Clocks*（1962）；Kellogg Hunt（1965）；Deborah Tannen（1984）；Brown 和 Levinson，*Politeness*（1987）；鈴木孝夫，《ことばと文化》（1973）。
+
+</details>
+
+<details>
+<summary>参考过的同类 skill 和写作资料</summary>
+
+- ◎ [cccskills/skills 的 charatone](https://github.com/cccskills/skills)（MIT）：「〜だ」说死是 AI 台词的通病、句末不是个性的主角、方言三处都要对。借了判断和阈值，表和例句是重写的
+- ◎ [gsm041039/ProjectHarukaDocument 的 story-character-voice-designer](https://github.com/gsm041039/ProjectHarukaDocument)：换人测试、由成功例句反推
+- ○ [clawic/skills 的 japanese](https://github.com/clawic/skills)：只作比较
+- grill-me：一次一问、带推荐答案的拷打做法
+- 更早的版本还参考了 skills.sh 上 ckokoski 的 dialogue、Story Embers 的 V.O.I.C.E.、haowjy/creative-writing-skills、Writers' Greenhouse、dropbars 博客
+
+</details>
 
 ## 安装
 
