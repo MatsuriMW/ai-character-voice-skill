@@ -3,7 +3,7 @@
 
   stats    统计一段文字或某个角色台词的句长、填充词、缩写、用词长度等，给「从样本建档」和检查用
   variety  按目标变体（uk / us / au）扫出穿帮的叫法和拼写，比如英国角色说了 apartment、color
-  era      古代台词里的现代词（--lang zh / en / ja）
+  era      古代台词里的现代词（--lang zh / en / ja）；中文可加 --period ming / qing / minguo 查朝代穿帮
   ja       日语台词检查：简体字混入、人称、现实风格里的役割语、已知敬语错误、句末分布、易错读音、估算拍数
 
 台词文件可以是纯文字，也可以是剧本格式「角色名: 台词」或「角色名：台词」，用 --speaker 只看一个人。
@@ -28,11 +28,12 @@ LINE_RE = re.compile(r"^\s*[*_]*([^:：\n]{1,30}?)[*_]*\s*[:：]\s*(.+)$")
 
 EN_FILLERS = ["um", "uh", "like", "you know", "i mean", "sort of", "kind of", "basically",
               "literally", "actually", "right", "well", "so", "anyway", "look", "listen",
-              "honestly", "lowkey", "to be fair", "i guess", "innit"]
+              "honestly", "lowkey", "to be fair", "i guess", "innit", "yeah nah"]
 ZH_FILLERS = ["就是", "然后", "那个", "对吧", "反正", "其实", "怎么说呢", "你知道吧", "我跟你说",
-              "说实话", "讲真", "说白了", "这个", "呃", "嗯", "啊", "吧", "呢", "嘛", "哈", "呗", "咋", "整", "贼"]
+              "说实话", "讲真", "说白了", "这个", "呃", "嗯", "啊", "吧", "呢", "嘛", "哈", "呗", "咋", "整", "贼",
+              "那啥", "那什么", "即系", "基本上"]
 JA_FILLERS = ["えっと", "ええと", "あの", "その", "なんか", "まあ", "やっぱ", "ていうか", "てか", "なんていうか",
-              "そうですね", "ちょっと", "まじで", "ほんとに", "うん"]
+              "そうですね", "ちょっと", "まじで", "ほんとに", "うん", "ほんで", "なんちゅうか", "なんつーか"]
 EN_STOP = set("""a an the and or but so to of in on at for with by from is are was were be been am i you he
 she it we they me him her us them my your his its our their this that these those not no do does did
 have has had will would can could should just what who how why when where if then than there here as
@@ -147,7 +148,12 @@ def variety(args):
 def era(args):
     text = read_lines(args.file, args.speaker)
     with open(ERA_DATA, encoding="utf-8") as f:
-        rows = [r for r in csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE) if r["lang"] == args.lang]
+        all_rows = list(csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE))
+    if args.period and args.lang != "zh":
+        sys.exit("--period 只用于中文（--lang zh）")
+    # 民国单用一张表：通用表里的电话、老板、分钟在民国都是对的
+    wanted = {"minguo": {"zh-minguo"}, "ming": {"zh", "zh-ming"}, "qing": {"zh", "zh-qing"}}.get(args.period, {args.lang})
+    rows = [r for r in all_rows if r["lang"] in wanted]
     found = 0
     for i, line in enumerate(text.splitlines(), 1):
         low = line.lower()
@@ -157,7 +163,8 @@ def era(args):
             if hit:
                 found += 1
                 instead = f"，可改：{r['instead']}" if r["instead"] else ""
-                print(f"[现代词] 第 {i} 句：{r['term']}（{r['kind']}{instead}）\n    {line.strip()}")
+                label = "朝代" if "-" in r["lang"] else "现代词"
+                print(f"[{label}] 第 {i} 句：{r['term']}（{r['kind']}{instead}）\n    {line.strip()}")
     print(f"\n共 {found} 处。词表只有常见的，查不了称谓对不对朝代，也查不了「现代想法换了古代腔」，这些要人工看（references/era/）。")
 
 
@@ -314,6 +321,7 @@ def main():
     e.add_argument("file")
     e.add_argument("--lang", choices=["zh", "en", "ja"], required=True)
     e.add_argument("--speaker")
+    e.add_argument("--period", choices=["ming", "qing", "minguo"], help="中文：再查这个朝代的穿帮；贴朝代的架空戏填依托的朝代")
     e.set_defaults(fn=era)
     j = sub.add_parser("ja", help="日语台词检查")
     j.add_argument("file")
