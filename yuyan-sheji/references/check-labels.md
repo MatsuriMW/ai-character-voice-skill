@@ -34,6 +34,17 @@
 
 一句可以打多个标签，例：`TOO_ARTICULATE` + `WRONG_VARIETY`。
 
+## 称谓（模式 A 也用）
+
+| 标签 | 意思 | 查 | 改法 |
+|---|---|---|---|
+| `ADDR_WRONG` | 叫错了：身份、规则不对（*Sir Smith*） | `称谓纠偏.md` | 给依据，改 |
+| `ADDR_DIRECTION` | 方向反了：谦敬、内外颠倒（称别人的父亲「家父」） | `称谓纠偏.md`、`ja/02` | 问听话人是谁 |
+| `ADDR_DRIFT` | 同一对关系无理由跳变 | 称谓决定表 | 统一；要变就写成情节点 |
+| `ADDR_TRANSLATED` | 翻译腔称谓（*Teacher Li*、*Big Brother*） | `称谓纠偏.md` | 按目标语言重写 |
+| `ADDR_FILM` | 影视叫法，史料少见 | `era/` | 看这部戏选哪一层 |
+| `ADDR_UNSURE` | 拿不准 | `称谓纠偏.md` 第一节 | **问用户**，带原因和信源 |
+
 ## 日语专用
 
 通用标签照用（`TIC_OVERUSE`、`TOO_FORMAL` 等）。日语多下面这些，按严重程度从高到低。

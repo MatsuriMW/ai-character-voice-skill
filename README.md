@@ -65,12 +65,13 @@
 | **架空王朝** | 贴朝代、拼合、自造三档；全剧共用的称谓锁定表；真实历史算不算数（架空的国家里能不能说「三顾茅庐」） |
 | **真人感（现代）** | 惊讶、愤怒时脱口而出的话，按语言、年龄、地域、信仰分（bloody hell、oh my goodness、卧槽、这下坏了）；分人群、分地区的 filler（like、literally、就是、那啥、なんか、ほんで）和密度，中英日三语都有；古代不细做 |
 
-## 五个模式
+## 六个模式
 
 ![进分镜之前先拷打：逐人问五个问题、逐句测四项；评测结果和局限](docs/method.png)
 
 | 模式 | 什么时候用 |
 |---|---|
+| **A 称谓纠偏** | 只想知道称呼对不对。中日英、古今都能用，不用建档，给一句台词也行。拿不准的不猜：直接问你，说清为什么拿不准、查了哪些信源，由你决定 |
 | **R 剧本拷打** | 进分镜之前。逐个人物逼问（他踩到钉子第一个字是什么？），再逐句测（这句换人行不行？真人会说这么完整吗？说给观众听的吗？）。有 10 条出关硬条件 |
 | S 从样本建档 | 手上有某人的访谈、口播稿 |
 | P 从人设建档 | 手上有人设或小传，可以接[角色设计 skill](https://github.com/MatsuriMW/ai-character-design-skill) |
@@ -175,6 +176,7 @@
 <details>
 <summary>脱口而出和 filler</summary>
 
+- ○ [Debrett's：The Trouble with Titles](https://debretts.com/the-trouble-with-titles/)；[SRA：How to address the court](https://www.sra.org.uk/solicitors/resources/specific-areas-of-practice/addressing-court/)；[What do I call a judge?](https://www.judiciary.uk/guidance-and-resources/what-do-i-call-a-judge/)（称谓纠偏的英文部分）
 - ○ Gunnel Tottie（2011），um 和 uh 作为社会语言学标记，[基于 BNC 的复现](https://rdrr.io/github/WFU-TLC/analyzr/f/vignettes/analysis-an-inference-example.Rmd)
 - ○ Mark Liberman，[Language Log](https://languagelog.ldc.upenn.edu/nll/?p=13805)；[德语和荷兰语的情况](https://languagelog.ldc.upenn.edu/nll/?p=14894)（Wieling）；[um 和 uh 的性别差异](https://repository.upenn.edu/pwpl/vol17/iss2/2/)（宾大工作论文）
 - ○ Jack Grieve，[美国脏话的地域分布](https://www.cbsnews.com/chicago/news/dang-chicagoans-swear-a-lot)（CBS 报道）
@@ -233,7 +235,7 @@ yuyan-sheji/
     ja/                日语模式
     era/               时代轴，中英日古代，明清民国细写，架空王朝
   templates/           语言档案模板（日语单独一份）、检查报告
-  examples/            18 个示例角色
+  examples/            18 个示例角色，1 个称谓纠偏示例
   evals/               用例、盲测题和答案（分开放）、每轮记录
   scripts/yuyan_tool.py  stats、variety、era、ja
 ```
@@ -254,7 +256,7 @@ yuyan-sheji/
 
 An Agent Skill for Claude Code, Codex and claude.ai that gives each AI-film character a **language profile** and grills the script **before storyboarding**, so a lawyer, a mechanic and a fourteen-year-old stop sharing one customer-service voice.
 
-Three independent axes: **language** (Chinese, English, Japanese), **era** (modern, historical) and **style** (Japanese realistic vs anime; historical accuracy levels). It covers Japanese honorifics and in-group/out-group rules, pronouns by relationship, role language (*yakuwarigo*), classic archetypes such as yakuza and high-school girls; British, American and Australian English, AAVE grammar, class markers; Chinese dialects and historical forms of address; plus what people blurt out when startled and who uses which filler words.
+The first mode is a standalone check of forms of address, for any language or era: when the sources disagree, it stops and asks you, showing what each source says and how reliable it is. Three independent axes: **language** (Chinese, English, Japanese), **era** (modern, historical) and **style** (Japanese realistic vs anime; historical accuracy levels). It covers Japanese honorifics and in-group/out-group rules, pronouns by relationship, role language (*yakuwarigo*), classic archetypes such as yakuza and high-school girls; British, American and Australian English, AAVE grammar, class markers; Chinese dialects and historical forms of address; plus what people blurt out when startled and who uses which filler words.
 
 Evaluation is model-on-model: blind speaker identification scored 12/12 on the latest Japanese and historical Chinese sets, and the script-grilling mode failed its first cold run, which is why it now has hard exit criteria. **No native speaker has reviewed the Japanese.** Reference notes are mostly in Chinese.
 
