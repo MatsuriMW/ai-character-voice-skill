@@ -4,6 +4,7 @@
   stats    统计一段文字或某个角色台词的句长、填充词、缩写、用词长度等，给「从样本建档」和检查用
   variety  按目标变体（uk / us / au）扫出穿帮的叫法和拼写，比如英国角色说了 apartment、color
   era      古代台词里的现代词（--lang zh / en / ja）；中文可加 --period ming / qing / minguo 查朝代穿帮
+  address  称谓的上下：上级说了下级的词、下级说了上级的词、同一对人叫法跳变（--order "巡抚>知县=县丞>差役"）
   ja       日语台词检查：简体字混入、人称、现实风格里的役割语、已知敬语错误、句末分布、易错读音、估算拍数
 
 台词文件可以是纯文字，也可以是剧本格式「角色名: 台词」或「角色名：台词」，用 --speaker 只看一个人。
@@ -22,6 +23,7 @@ import sys
 from pathlib import Path
 
 DATA = Path(__file__).resolve().parent.parent / "references" / "data" / "variety.tsv"
+RANK_DATA = Path(__file__).resolve().parent.parent / "references" / "data" / "address-rank.tsv"
 ERA_DATA = Path(__file__).resolve().parent.parent / "references" / "era" / "data" / "era-words.tsv"
 JA_DATA = Path(__file__).resolve().parent.parent / "references" / "ja" / "data" / "ja-lint.tsv"
 LINE_RE = re.compile(r"^\s*[*_]*([^:：\n]{1,30}?)[*_]*\s*[:：]\s*(.+)$")
@@ -166,6 +168,58 @@ def era(args):
                 label = "朝代" if "-" in r["lang"] else "现代词"
                 print(f"[{label}] 第 {i} 句：{r['term']}（{r['kind']}{instead}）\n    {line.strip()}")
     print(f"\n共 {found} 处。词表只有常见的，查不了称谓对不对朝代，也查不了「现代想法换了古代腔」，这些要人工看（references/era/）。")
+
+
+def parse_order(order):
+    """「巡抚>知县=县丞>差役」→ 名字到等级，等级越小越高。"""
+    return {name.strip(): i for i, group in enumerate(order.split(">")) for name in group.split("=")}
+
+
+def address(args):
+    with open(RANK_DATA, encoding="utf-8") as f:
+        rows = [r for r in csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE) if r["lang"] == args.lang]
+    rank = parse_order(args.order)
+    turns = []
+    for raw in Path(args.file).read_text(encoding="utf-8").splitlines():
+        m = LINE_RE.match(raw)
+        if m:
+            turns.append((m.group(1).strip(), re.sub(r"[（(][^）)]*[）)]", "", m.group(2))))
+    if not turns:
+        sys.exit("没有读到「角色：台词」格式的台词")
+
+    def listener(i):
+        # 听话人靠猜：回上一个不同的人；开头那句就当说给下一个人
+        for j in list(range(i - 1, -1, -1)) + list(range(i + 1, len(turns))):
+            if turns[j][0] != turns[i][0]:
+                return turns[j][0]
+
+    problems, skipped, used = 0, set(), collections.defaultdict(collections.Counter)
+    names = {"up": "下对上的词", "down": "上对下的词", "notup": "不能对上用的词"}
+    for i, (who, line) in enumerate(turns):
+        to = listener(i)
+        if who not in rank or to not in rank:
+            skipped |= {n for n in (who, to) if n and n not in rank}
+            continue
+        rel = "下对上" if rank[who] > rank[to] else "上对下" if rank[who] < rank[to] else "平辈"
+        low = line.lower()
+        for r in rows:
+            term = r["term"].lower()
+            hit = re.search(r"(?<![\w'-])" + re.escape(term) + r"(?![\w-])", low) if args.lang == "en" else term in low
+            if not hit:
+                continue
+            if r["pos"] == "you":
+                used[(who, to)][r["term"]] += 1
+            bad = {"up": rel != "下对上", "down": rel != "上对下", "notup": rel == "下对上"}[r["dir"]]
+            if bad:
+                problems += 1
+                note = f"；{r['note']}" if r["note"] else ""
+                print(f"[上下] 第 {i + 1} 句 {who} → {to}（{rel}）：「{r['term']}」是{names[r['dir']]}{note}\n    {line.strip()}")
+    for (who, to), terms in used.items():
+        if len(terms) > 1:
+            print(f"[跳变？] {who} → {to} 用过：" + "、".join(f"{t}×{n}" for t, n in terms.items()))
+    if skipped:
+        print("没在 --order 里、没查的人：" + "、".join(sorted(skipped)))
+    print(f"\n共 {problems} 处要看。可能是错，也可能是故意反着用（笼络、讽刺、决裂），也可能是在说第三人；听话人是按「回上一个人」猜的。按 references/称谓纠偏.md 第二节人工判。")
 
 
 KANSAI_MARK = r"(?:やで|やん|やろ|やな|ねん|てん|[かきくけこさしすせそたちつてとなにぬねのまみむめもらりるれろがぎぐげごえいう]へん|ひん|あかん|ほんま|せや|そや|ほな|ちゃう|めっちゃ|おもろ|しゃあない|ええ|なんぼ|やんか|はる|とん[？?]|とう[？?]|たる|もた|なあかん)"
@@ -323,6 +377,11 @@ def main():
     e.add_argument("--speaker")
     e.add_argument("--period", choices=["ming", "qing", "minguo"], help="中文：再查这个朝代的穿帮；贴朝代的架空戏填依托的朝代")
     e.set_defaults(fn=era)
+    d = sub.add_parser("address", help="称谓的上下和跳变")
+    d.add_argument("file")
+    d.add_argument("--lang", choices=["zh", "en", "ja"], required=True)
+    d.add_argument("--order", required=True, help="从高到低，同级用 =，如 巡抚>知县=县丞>差役")
+    d.set_defaults(fn=address)
     j = sub.add_parser("ja", help="日语台词检查")
     j.add_argument("file")
     j.add_argument("--speaker")

@@ -1,0 +1,73 @@
+lang	term	dir	pos	note
+zh	卑职	up	self	
+zh	下官	up	self	
+zh	末将	up	self	
+zh	标下	up	self	
+zh	属下	up	self	
+zh	奴才	up	self	
+zh	奴婢	up	self	
+zh	小的	up	self	
+zh	小人	up	self	
+zh	草民	up	self	
+zh	民女	up	self	
+zh	晚生	up	self	
+zh	门生	up	self	
+zh	微臣	up	self	
+zh	臣妾	up	self	
+zh	儿臣	up	self	
+zh	老奴	up	self	
+zh	大人	up	you	也可能在说第三人
+zh	老爷	up	you	也可能在说第三人
+zh	大老爷	up	you	
+zh	陛下	up	you	
+zh	万岁爷	up	you	
+zh	殿下	up	you	
+zh	主子	up	you	
+zh	钧座	up	you	
+zh	委座	up	you	
+zh	朕	down	self	
+zh	本官	down	self	
+zh	本府	down	self	
+zh	本县	down	self	
+zh	本院	down	self	
+zh	本帅	down	self	
+zh	本将	down	self	
+zh	本王	down	self	
+zh	本宫	down	self	
+zh	哀家	down	self	
+zh	寡人	down	self	
+zh	为师	down	self	
+zh	爱卿	down	you	
+zh	尔等	down	you	
+zh	小的们	down	you	
+zh	贤弟	notup	you	
+zh	贤侄	notup	you	
+zh	老弟	notup	you	
+zh	小子	notup	you	
+zh	这厮	notup	you	
+zh	贵县	notup	you	
+en	my lord	up	you	
+en	my lady	up	you	
+en	your honor	up	you	
+en	your honour	up	you	
+en	your majesty	up	you	
+en	your grace	up	you	
+en	m'lord	up	you	
+en	ma'am	up	you	
+en	sir	up	you	
+en	my boy	notup	you	
+en	my son	notup	you	
+en	young man	notup	you	
+en	thou	notup	you	
+ja	お前	notup	you	对上级这么叫是失礼或挑衅
+ja	おまえ	notup	you	对上级这么叫是失礼或挑衅
+ja	貴様	notup	you	对上级这么叫是失礼或挑衅
+ja	てめえ	notup	you	对上级这么叫是失礼或挑衅
+ja	テメェ	notup	you	对上级这么叫是失礼或挑衅
+ja	あんた	notup	you	对上级这么叫是失礼或挑衅
+ja	くん	notup	you	对上级这么叫是失礼或挑衅
+ja	先輩	up	you	也可能在说第三人
+ja	部長	up	you	也可能在说第三人
+ja	課長	up	you	也可能在说第三人
+ja	社長	up	you	也可能在说第三人
+ja	先生	up	you	也可能在说第三人
